@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Logger;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 public class StreamingServer extends Application {
@@ -29,5 +30,16 @@ public class StreamingServer extends Application {
     // stage.setResizable(false);
     stage.setHeight(500);
     stage.setWidth(500);
+
+    root.getChildren().add(this.initLogArea());
+  }
+
+  private TextArea initLogArea() {
+    TextArea logArea = new TextArea();
+    logArea.setEditable(false);
+
+    TextAreaAppender.textArea = logArea;
+
+    return logArea;
   }
 }
