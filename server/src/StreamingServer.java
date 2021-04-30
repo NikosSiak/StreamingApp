@@ -1,9 +1,15 @@
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class StreamingServer extends Application {
+
+  private static final Logger LOGGER = LogManager.getLogger(StreamingServer.class);
+
   public static void main(String[] args) {
     launch(args);
   }
