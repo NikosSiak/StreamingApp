@@ -39,4 +39,12 @@ public enum Resolution {
 
     throw new IllegalArgumentException("Unsupported resolution");
   }
+
+  public boolean isLessThan(Resolution other) {
+    return this.compareTo(other) < 0;
+  }
+
+  public boolean isGreaterThan(Resolution other) {
+    return this.compareTo(other) > 0;
+  }
 }
