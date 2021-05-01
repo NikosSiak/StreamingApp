@@ -21,14 +21,19 @@ public class StreamingServerController {
   public void startServer(ActionEvent event) {
     LOGGER.info("starting server");
 
-    startServerButton.setDisable(true);
-    stopServerButton.setDisable(false);
+    toggleButtons();
   }
 
   public void stopServer(ActionEvent event) {
     LOGGER.info("stopping server");
 
-    startServerButton.setDisable(false);
-    stopServerButton.setDisable(true);
+    toggleButtons();
+  }
+
+  private void toggleButtons() {
+    boolean isRunning = this.startServerButton.isDisabled();
+
+    this.startServerButton.setDisable(!isRunning);
+    this.stopServerButton.setDisable(isRunning);
   }
 }
