@@ -1,18 +1,20 @@
 package video;
 
 public enum Resolution {
-  RES_240(426, 240),
-  RES_360(640, 360),
-  RES_480(865, 480),
-  RES_720(1280, 720),
-  RES_1080(1920, 1080);
+  RES_240(426, 240, "240p"),
+  RES_360(640, 360, "360p"),
+  RES_480(865, 480, "480p"),
+  RES_720(1280, 720, "720p"),
+  RES_1080(1920, 1080, "1080p");
 
   private int width;
   private int height;
+  private String representation;
 
-  private Resolution(int width, int height) {
+  private Resolution(int width, int height, String representation) {
     this.width = width;
     this.height = height;
+    this.representation = representation;
   }
 
   public int getWidth() {
@@ -21,6 +23,10 @@ public enum Resolution {
 
   public int getHeight() {
     return this.height;
+  }
+
+  public String getRepresentaion() {
+    return this.representation;
   }
 
   public static Resolution getEnum(String value) throws IllegalArgumentException {
