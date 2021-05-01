@@ -28,6 +28,7 @@
         <targetPath>${project.build.directory}/classes</targetPath>
         <includes>
           <include>log4j2.xml</include>
+          <include>StreamingServer.fxml</include>
         </includes>
       </resource>
     </resources>
@@ -36,6 +37,11 @@
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
+      <version>15.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-fxml</artifactId>
       <version>15.0.1</version>
     </dependency>
     <dependency>
