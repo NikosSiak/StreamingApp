@@ -15,10 +15,15 @@ public class StreamingServerController {
 
   public void startServer(ActionEvent event) {
     LOGGER.info("starting server");
+
+    startServerButton.setDisable(true);
+    stopServerButton.setDisable(false);
   }
 
   public void stopServer(ActionEvent event) {
     LOGGER.info("stopping server");
-  }
 
+    startServerButton.setDisable(false);
+    stopServerButton.setDisable(true);
+  }
 }
