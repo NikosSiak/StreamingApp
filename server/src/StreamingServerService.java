@@ -52,20 +52,20 @@ public class StreamingServerService {
 
       String resolution = metadata[0];
       String format = metadata[1];
-
-      VideoVariants videoVariants = fileVariants.getOrDefault(movieName, new VideoVariants(movieName));
       
       try {
         Format videoFormat = Format.getEnum(format);
         Resolution videoResolution = Resolution.getEnum(resolution);
+
+        VideoVariants videoVariants = fileVariants.getOrDefault(movieName, new VideoVariants(movieName, videoFormat));
         videoVariants.addVariant(videoFormat, videoResolution);
+
+        if (!fileVariants.containsKey(movieName)) {
+          fileVariants.put(movieName, videoVariants);
+        }
       } catch (IllegalArgumentException e) {
         LOGGER.warn("{} for file \"{}\"", e.getMessage(), fileName);
         continue;
-      }
-      
-      if (!fileVariants.containsKey(movieName)) {
-        fileVariants.put(movieName, videoVariants);
       }
     }
 

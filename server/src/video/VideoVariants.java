@@ -5,18 +5,21 @@ import java.util.ArrayList;
 public class VideoVariants {
   private String videoName;
   private ArrayList<Variant> variants;
-  private Resolution maxResolution;
+  private Resolution maxExistingResolution;
+  private Format maxExistingResolutionFileFormat;
 
-  public VideoVariants(String videoName) {
+  public VideoVariants(String videoName, Format format) {
     this.videoName = videoName;
     this.variants = new ArrayList<>();
-    this.maxResolution = Resolution.RES_240;
+    this.maxExistingResolution = Resolution.RES_240;
+    this.maxExistingResolutionFileFormat = format;
   }
   
   public void addVariant(Format fileFormat, Resolution resolution) {
     this.variants.add(new Variant(fileFormat, resolution));
-    if (maxResolution.isLessThan(resolution)) {
-      maxResolution = resolution;
+    if (maxExistingResolution.isLessThan(resolution)) {
+      maxExistingResolution = resolution;
+      maxExistingResolutionFileFormat = fileFormat;
     }
   }
 
@@ -25,7 +28,7 @@ public class VideoVariants {
     
     for (Format format : Format.values()) {
       for (Resolution resolution : Resolution.values()) {
-        if (resolution.isGreaterThan(this.maxResolution)) {
+        if (resolution.isGreaterThan(this.maxExistingResolution)) {
           break;
         }
         
@@ -39,7 +42,12 @@ public class VideoVariants {
     return missingVariants.toArray(new Variant[missingVariants.size()]);
   }
 
-  public String getVideoName() {
-    return this.videoName;
+  public String getFileName() {
+    StringBuilder builder = new StringBuilder(this.videoName);
+    builder.append("-");
+    builder.append(this.maxExistingResolution.getRepresentaion());
+    builder.append(this.maxExistingResolutionFileFormat.getExtension());
+
+    return builder.toString();
   }
 }
