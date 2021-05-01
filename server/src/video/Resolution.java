@@ -32,7 +32,7 @@ public enum Resolution {
       case "480p":
         return Resolution.RES_480;
       case "720p":
-        return Resolution.RES_480;
+        return Resolution.RES_720;
       case "1080p":
         return Resolution.RES_1080;
     }
