@@ -7,11 +7,16 @@ import javafx.scene.control.Button;
 
 public class StreamingServerController {
   private static final Logger LOGGER = LogManager.getLogger(StreamingServerController.class);
+  private final StreamingServerService service;
   
   @FXML
   private Button startServerButton;
   @FXML
   private Button stopServerButton;
+
+  public StreamingServerController(StreamingServerService service) {
+    this.service = service;
+  }
 
   public void startServer(ActionEvent event) {
     LOGGER.info("starting server");

@@ -1,8 +1,6 @@
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.io.IOException;
 
 import javafx.application.Application;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -12,8 +10,6 @@ import javafx.fxml.FXMLLoader;
 import utils.TextAreaAppender;
 
 public class StreamingServer extends Application {
-
-  private static final Logger LOGGER = LogManager.getLogger(StreamingServer.class);
   private static final String LOG_TEXT_AREA = "#textAreaLogger";
   private static final String START_SERVER_BUTTON = "#startServerButton";
 
@@ -24,8 +20,7 @@ public class StreamingServer extends Application {
   @Override
   public void start(Stage stage) throws Exception {
     try {
-      Parent root = FXMLLoader.load(getClass().getResource("StreamingServer.fxml"));
-      Scene scene = new Scene(root);
+      Scene scene = initScene();
       
       TextAreaAppender.textArea = (TextArea) scene.lookup(LOG_TEXT_AREA);
       
@@ -38,5 +33,14 @@ public class StreamingServer extends Application {
       e.printStackTrace();
       System.exit(1);
     }
+  }
+
+  private Scene initScene() throws IOException {
+    StreamingServerService service = new StreamingServerService();
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("StreamingServer.fxml"));
+    StreamingServerController controller = new StreamingServerController(service);
+    loader.setController(controller);
+
+    return new Scene(loader.load());
   }
 }
