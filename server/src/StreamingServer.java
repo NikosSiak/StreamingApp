@@ -8,6 +8,8 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 
+import utils.TextAreaAppender;
+
 public class StreamingServer extends Application {
 
   private static final Logger LOGGER = LogManager.getLogger(StreamingServer.class);
