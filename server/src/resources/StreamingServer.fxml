@@ -19,6 +19,6 @@
    <children>
       <TextArea fx:id="textAreaLogger" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowSpan="2" />
       <Button fx:id="startServerButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#startServer" prefHeight="76.0" prefWidth="293.0" text="Start Server" GridPane.rowIndex="2" />
-      <Button fx:id="stopServerButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#stopServer" text="Stop Server" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <Button fx:id="stopServerButton" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#stopServer" text="Stop Server" GridPane.columnIndex="1" GridPane.rowIndex="2" />
    </children>
 </GridPane>
