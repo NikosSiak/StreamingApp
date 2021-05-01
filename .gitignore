@@ -6,3 +6,7 @@ logs/
 .classpath
 .factorypath
 .project
+
+*.avi
+*.mp4
+*.mkv
