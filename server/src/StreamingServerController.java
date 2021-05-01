@@ -22,6 +22,12 @@ public class StreamingServerController {
     LOGGER.info("starting server");
 
     toggleButtons();
+    try {
+      this.service.populateVideosFolder();
+    } catch (Exception e) {
+      e.printStackTrace();
+      LOGGER.error("{}", e.getMessage());
+    }
   }
 
   public void stopServer(ActionEvent event) {

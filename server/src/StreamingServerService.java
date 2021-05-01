@@ -2,7 +2,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.bramp.ffmpeg.FFmpeg;
+import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.FFprobe;
+import net.bramp.ffmpeg.builder.FFmpegBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +21,7 @@ public class StreamingServerService {
 
   private final FFmpeg ffmpeg;
   private final FFprobe ffprobe;
+  private final FFmpegExecutor executor;
 
   public StreamingServerService() throws IOException {
     this("videos");
@@ -29,8 +32,20 @@ public class StreamingServerService {
     
     this.ffmpeg = new FFmpeg();
     this.ffprobe = new FFprobe();
+    this.executor = new FFmpegExecutor(this.ffmpeg, this.ffprobe);
   }
 
+  public void populateVideosFolder() {
+    LOGGER.info("Creating video files...");
+    
+    VideoVariants[] videoVariants = getVideoVariants();
+
+    for (VideoVariants video : videoVariants) {
+      this.generateMissingVariantsForVideo(video.getFileName(), video.getMissingVariants());
+    }
+
+    LOGGER.info("Finished creating video files");
+  }
 
   private VideoVariants[] getVideoVariants() {
     HashMap<String, VideoVariants> fileVariants = new HashMap<>();
@@ -70,5 +85,25 @@ public class StreamingServerService {
     }
 
     return fileVariants.values().toArray(new VideoVariants[fileVariants.size()]);
+  }
+
+  private void generateMissingVariantsForVideo(String filename, Variant[] variants) {
+    String inputPath = new File(this.videosFolder, filename).getAbsolutePath();
+    
+    for (Variant variant : variants) {
+      try {
+        LOGGER.info("Creating {}", variant.getOutputPath(inputPath));
+        FFmpegBuilder builder = new FFmpegBuilder()
+          .setInput(inputPath)
+          .addOutput(variant.getOutputPath(inputPath))
+          .setVideoResolution(variant.getResolution().getWidth(), variant.getResolution().getHeight())
+          .done();
+
+        this.executor.createJob(builder).run();
+      } catch (Exception e) {
+        LOGGER.error("{}, {}", e.getMessage(), variant.getOutputPath(inputPath));
+      }
+      
+    }
   }
 }
