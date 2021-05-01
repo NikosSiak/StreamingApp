@@ -17,6 +17,20 @@ public class Variant {
     return this.resolution;
   }
 
+  public String getOutputPath(String inputPath) {
+    int index = inputPath.lastIndexOf("-");
+    if (index == -1) {
+      throw new IllegalArgumentException("Invalid file path");
+    }
+
+    StringBuilder builder = new StringBuilder(inputPath.substring(0, index));
+    builder.append("-");
+    builder.append(this.resolution.getRepresentaion());
+    builder.append(this.format.getExtension());
+    
+    return builder.toString();
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (obj == null) {
