@@ -12,6 +12,7 @@ import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import video.Format;
 import video.Resolution;
 import video.Variant;
+import video.VideoFile;
 import video.VideoVariants;
 
 public class GenerateVideosTask implements Runnable {
@@ -42,32 +43,17 @@ public class GenerateVideosTask implements Runnable {
     HashMap<String, VideoVariants> fileVariants = new HashMap<>();
 
     for (String fileName : this.videosFolder.list()) {
-      int index = fileName.lastIndexOf("-");
-      if (index == -1) {
-        LOGGER.warn("File: {} wrong file name format, file name format must be \"filename-resolution.format\"", fileName);
-        continue;
-      }
-
-      String movieName = fileName.substring(0, index);
-
-      String[] metadata = fileName.substring(index + 1).split("\\.");
-      if (metadata.length != 2) {
-        LOGGER.warn("File: {} wrong file name format, file name format must be \"filename-resolution.format\"", fileName);
-        continue;
-      }
-
-      String resolution = metadata[0];
-      String format = metadata[1];
-      
       try {
-        Format videoFormat = Format.getEnum(format);
-        Resolution videoResolution = Resolution.getEnum(resolution);
+        VideoFile videoFile = new VideoFile(this.videosFolder, fileName);
+        String videoName = videoFile.getName();
+        Format videoFormat = videoFile.getFormat();
+        Resolution videoResolution = videoFile.getResolution();
 
-        VideoVariants videoVariants = fileVariants.getOrDefault(movieName, new VideoVariants(movieName, videoFormat));
+        VideoVariants videoVariants = fileVariants.getOrDefault(videoName, new VideoVariants(videoName, videoFormat));
         videoVariants.addVariant(videoFormat, videoResolution);
 
-        if (!fileVariants.containsKey(movieName)) {
-          fileVariants.put(movieName, videoVariants);
+        if (!fileVariants.containsKey(videoName)) {
+          fileVariants.put(videoName, videoVariants);
         }
       } catch (IllegalArgumentException e) {
         LOGGER.warn("{} for file \"{}\"", e.getMessage(), fileName);
