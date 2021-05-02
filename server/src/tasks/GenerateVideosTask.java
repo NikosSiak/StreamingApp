@@ -82,11 +82,12 @@ public class GenerateVideosTask implements Runnable {
     String inputPath = new File(this.videosFolder, filename).getAbsolutePath();
     
     for (Variant variant : variants) {
+      String outputPath = variant.getOutputPath(inputPath);
       try {
-        LOGGER.info("Creating {}", variant.getOutputPath(inputPath));
+        LOGGER.info("Creating {}", outputPath);
         FFmpegBuilder builder = new FFmpegBuilder()
           .setInput(inputPath)
-          .addOutput(variant.getOutputPath(inputPath))
+          .addOutput(outputPath)
           .setVideoResolution(variant.getResolution().getWidth(), variant.getResolution().getHeight())
           .done();
 
@@ -95,7 +96,7 @@ public class GenerateVideosTask implements Runnable {
         // thread.start();
         this.ffmpegExecutor.createJob(builder).run();
       } catch (Exception e) {
-        LOGGER.error("{}, {}", e.getMessage(), variant.getOutputPath(inputPath));
+        LOGGER.error("{}, {}", e.getMessage(), outputPath);
       }
     }
   }
