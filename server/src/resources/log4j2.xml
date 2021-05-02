@@ -18,6 +18,12 @@
     <Logger name="StreamingServerService" level="ALL" additivity="false">
       <AppenderRef ref="TextArea" />
     </Logger>
+    <Logger name="tasks.GenerateVideosTask" level="ALL" additivity="false">
+      <AppenderRef ref="TextArea" />
+    </Logger>
+    <Logger name="tasks.StartServerTask" level="ALL" additivity="false">
+      <AppenderRef ref="TextArea" />
+    </Logger>
     <Root level="OFF" additivity="true">
       <AppenderRef ref="console" />
     </Root>
