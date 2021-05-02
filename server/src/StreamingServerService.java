@@ -42,5 +42,8 @@ public class StreamingServerService {
   }
 
   public void stopServer() {
+    if (this.runningServerThread != null) {
+      this.runningServerThread.interrupt();
+    }
   }
 }
