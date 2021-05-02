@@ -7,6 +7,7 @@ import org.apache.logging.log4j.core.config.plugins.PluginAttribute;
 import org.apache.logging.log4j.core.config.plugins.PluginElement;
 import org.apache.logging.log4j.core.config.plugins.PluginFactory;
 
+import javafx.application.Platform;
 import javafx.scene.control.TextArea;
 
 import org.apache.logging.log4j.core.Core;
@@ -43,6 +44,6 @@ public class TextAreaAppender extends AbstractAppender {
   @Override
   public void append(LogEvent event) {
     Serializable msg = this.layout.toSerializable(event);
-    TextAreaAppender.textArea.appendText(msg.toString());
+    Platform.runLater(() -> TextAreaAppender.textArea.appendText(msg.toString()));
   }
 }
