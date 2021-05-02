@@ -21,14 +21,8 @@ public class StartServerTask implements Runnable {
 
   @Override
   public void run() {
-    Thread thread = new Thread(new GenerateVideosTask(this.videosFolder, this.ffmpegExecutor));
-    thread.setDaemon(true);
-    thread.start();
-    try {
-      thread.join();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    GenerateVideosTask generateVideosTask = new GenerateVideosTask(this.videosFolder, this.ffmpegExecutor);
+    generateVideosTask.run();
   }
   
 }

@@ -90,7 +90,7 @@ public class GenerateVideosTask implements Runnable {
           .setVideoResolution(variant.getResolution().getWidth(), variant.getResolution().getHeight())
           .done();
 
-        // Thread thread = new Thread(this.executor.createJob(builder));
+        // Thread thread = new Thread(this.ffmpegExecutor.createJob(builder));
         // thread.setDaemon(true);
         // thread.start();
         this.ffmpegExecutor.createJob(builder).run();
