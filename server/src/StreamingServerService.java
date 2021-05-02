@@ -32,7 +32,6 @@ public class StreamingServerService {
   }
 
   public void startServer() {
-    LOGGER.debug("starting thread");
     try {
       this.runningServerThread = new Thread(new StartServerTask(this.videosFolder, this.executor));
       this.runningServerThread.setDaemon(true);
