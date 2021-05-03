@@ -5,6 +5,7 @@ import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.FFprobe;
 import tasks.StartServerTask;
+import utils.Callback;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,9 +32,9 @@ public class StreamingServerService {
     this.executor = new FFmpegExecutor(this.ffmpeg, this.ffprobe);
   }
 
-  public void startServer() {
+  public void startServer(Callback serverStarted) {
     try {
-      this.runningServerThread = new Thread(new StartServerTask(this.videosFolder, this.executor));
+      this.runningServerThread = new Thread(new StartServerTask(this.videosFolder, this.executor, serverStarted));
       this.runningServerThread.setDaemon(true);
       this.runningServerThread.start();
     } catch (Exception e) {
