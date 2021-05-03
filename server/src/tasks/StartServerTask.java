@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 import net.bramp.ffmpeg.FFmpegExecutor;
 
@@ -27,9 +28,12 @@ public class StartServerTask implements Runnable {
     GenerateVideosTask generateVideosTask = new GenerateVideosTask(this.videosFolder, this.ffmpegExecutor);
     generateVideosTask.run();
 
+    LOGGER.info("Listening for connections on port 1312");
+
     ServerSocket serverSocket;
     try  {
       serverSocket = new ServerSocket(1312);
+      serverSocket.setSoTimeout(1000);
     } catch (IOException e) {
       LOGGER.error("Failed to start server: {}", e.getMessage());
       return;
@@ -41,6 +45,8 @@ public class StartServerTask implements Runnable {
         Socket clientSocket = serverSocket.accept();
         Thread handleClientThread = new Thread(new HandleClientTask(clientSocket));
         handleClientThread.start();
+      } catch (SocketTimeoutException e) {
+        // blank
       } catch (IOException e) {
         LOGGER.error(e.getMessage());
       }
@@ -51,5 +57,7 @@ public class StartServerTask implements Runnable {
     } catch (IOException e) {
       LOGGER.error("Failed to close server: {}", e.getMessage());
     }
+
+    LOGGER.info("Stopped listening for connections on port 1312");
   }
 }
