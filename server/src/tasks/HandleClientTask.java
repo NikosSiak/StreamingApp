@@ -13,6 +13,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Predicate;
 
@@ -29,12 +30,17 @@ public class HandleClientTask implements Runnable {
 
   @Override
   public void run() {
+    ArrayList<String> commandLineArguments = null;
+    
+    String clientAddress = clientSocket.getInetAddress().toString();
+    int port = this.clientSocket.getPort();
+
     try (
       DataInputStream in = new DataInputStream(new BufferedInputStream(this.clientSocket.getInputStream()));
       DataOutputStream out = new DataOutputStream(this.clientSocket.getOutputStream());
     ) {
 
-      LOGGER.info("Client {} connected", clientSocket.getInetAddress());
+      LOGGER.info("Client {} connected", clientAddress);
       
       float connectionSpeed = in.readFloat();
       Format format = Format.getEnum(in.readUTF());
@@ -55,6 +61,19 @@ public class HandleClientTask implements Runnable {
 
       out.writeUTF("#END#");
 
+      String videoToStream = in.readUTF();
+      String protocol = in.readUTF().toLowerCase();
+
+      try {
+        commandLineArguments = this.constructCommandLineArgs(videoToStream, protocol, port);
+      } catch (IllegalArgumentException e) {
+        LOGGER.error(e.getMessage());
+        port = -1;
+      }
+
+      // send the port number that the video will be streamed
+      out.writeInt(port);
+
     } catch (IOException e) {
       LOGGER.error(e.getMessage());
     } catch (IllegalArgumentException e) {
@@ -65,6 +84,48 @@ public class HandleClientTask implements Runnable {
       this.clientSocket.close();
     } catch (IOException e) {
       LOGGER.error(e.getMessage());
+      return;
     }
+
+    if (commandLineArguments == null) {
+      LOGGER.warn("Stream wont start for client: {}", clientAddress);
+      return;
+    }
+
+    LOGGER.info("Starting stream for client: {}, on port: {}", clientAddress, port);
+    ProcessBuilder processBuilder = new ProcessBuilder(commandLineArguments);
+    try {
+      processBuilder.start();
+    } catch (IOException e) {
+      LOGGER.error("Failed to start stream for client: {}, reason: {}", clientAddress, e.getMessage());
+    }
+  }
+
+  public ArrayList<String> constructCommandLineArgs(String videoName, String protocol, int port) {
+    ArrayList<String> args = new ArrayList<>();
+    String videoPath = new File(this.videosFolder, videoName).getAbsolutePath();
+
+    args.add("ffmpeg");
+
+    if (protocol.equals("udp")) {
+      args.add("-re");
+      args.add("-i");
+      args.add(videoPath);
+      args.add("-f");
+      args.add("mpegts");
+      args.add("udp://127.0.0.1:" + port);
+    } else if (protocol.equals("tcp")) {
+      args.add("-i");
+      args.add(videoPath);
+      args.add("-f");
+      args.add("mpegts");
+      args.add("tcp://127.0.0.1:" + port + "?listen");
+    } else if (protocol.equals("rtp")) {
+      // TODO
+    } else {
+      throw new IllegalArgumentException("invalid protocol");
+    }
+
+    return args;
   }
 }
