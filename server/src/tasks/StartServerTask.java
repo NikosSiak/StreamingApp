@@ -48,7 +48,7 @@ public class StartServerTask implements Runnable {
     while (!currentThread.isInterrupted()) {
       try {
         Socket clientSocket = serverSocket.accept();
-        Thread handleClientThread = new Thread(new HandleClientTask(clientSocket));
+        Thread handleClientThread = new Thread(new HandleClientTask(clientSocket, this.videosFolder));
         handleClientThread.start();
       } catch (SocketTimeoutException e) {
         // blank

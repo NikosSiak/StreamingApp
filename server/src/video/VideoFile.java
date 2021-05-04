@@ -5,11 +5,13 @@ import java.util.ArrayList;
 
 public class VideoFile {
   private String path;
+  private String fileName;
   private String name;
   private Resolution resolution;
   private Format format;
 
   public VideoFile(File folder, String fileName) {
+    this.fileName = fileName;
     this.path = new File(folder, fileName).getAbsolutePath();
 
     int index = fileName.lastIndexOf("-");
@@ -30,6 +32,10 @@ public class VideoFile {
 
   public String getPath() {
     return this.path;
+  }
+
+  public String getFileName() {
+    return this.fileName;
   }
 
   public String getName() {
