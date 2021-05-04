@@ -1,6 +1,7 @@
 package video;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class VideoFile {
   private String path;
@@ -41,5 +42,19 @@ public class VideoFile {
 
   public Format getFormat() {
     return this.format;
+  }
+
+  public static VideoFile[] getVideoFilesInFolder(File folder) {
+    ArrayList<VideoFile> files = new ArrayList<>();
+
+    for (String fileName : folder.list()) {
+      try {
+        files.add(new VideoFile(folder, fileName));
+      } catch (IllegalArgumentException e) {
+        // blank
+      }
+    }
+
+    return files.toArray(new VideoFile[files.size()]);
   }
 }
