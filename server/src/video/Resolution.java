@@ -46,6 +46,20 @@ public enum Resolution {
     throw new IllegalArgumentException("Unsupported resolution");
   }
 
+  public static Resolution getMaxResolutionForSpeed(float kbps) {
+    if (kbps >= 4500) {
+      return Resolution.RES_1080;
+    } else if (kbps >= 2500) {
+      return Resolution.RES_720;
+    } else if (kbps >= 1000) {
+      return Resolution.RES_480;
+    } else if (kbps >= 750) {
+      return Resolution.RES_360;
+    }
+
+    return Resolution.RES_240;
+  }
+
   public boolean isLessThan(Resolution other) {
     return this.compareTo(other) < 0;
   }
