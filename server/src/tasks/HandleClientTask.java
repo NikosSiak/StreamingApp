@@ -62,7 +62,7 @@ public class HandleClientTask implements Runnable {
       out.writeUTF("#END#");
 
       String videoToStream = in.readUTF();
-      String protocol = in.readUTF().toLowerCase();
+      String protocol = in.readUTF().toUpperCase();
 
       try {
         commandLineArguments = this.constructCommandLineArgs(videoToStream, protocol, port);
@@ -107,20 +107,20 @@ public class HandleClientTask implements Runnable {
 
     args.add("ffmpeg");
 
-    if (protocol.equals("udp")) {
+    if (protocol.equals("UDP")) {
       args.add("-re");
       args.add("-i");
       args.add(videoPath);
       args.add("-f");
       args.add("mpegts");
       args.add("udp://127.0.0.1:" + port);
-    } else if (protocol.equals("tcp")) {
+    } else if (protocol.equals("TCP")) {
       args.add("-i");
       args.add(videoPath);
       args.add("-f");
       args.add("mpegts");
       args.add("tcp://127.0.0.1:" + port + "?listen");
-    } else if (protocol.equals("rtp")) {
+    } else if (protocol.equals("RTP")) {
       // TODO
     } else {
       throw new IllegalArgumentException("invalid protocol");
