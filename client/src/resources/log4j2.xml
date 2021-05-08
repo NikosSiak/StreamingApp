@@ -24,6 +24,9 @@
     <Logger name="tasks.WatchStreamTask" level="ALL" additivity="false">
       <AppenderRef ref="file" />
     </Logger>
+    <Logger name="listeners.SpeedTestListener" level="ALL" additivity="false">
+      <AppenderRef ref="file" />
+    </Logger>
     <Root level="OFF" additivity="true">
       <AppenderRef ref="console" />
     </Root>
