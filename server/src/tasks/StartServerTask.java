@@ -12,7 +12,6 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 
 import net.bramp.ffmpeg.FFmpegExecutor;
-import utils.Callback;
 
 public class StartServerTask implements Runnable {
 
@@ -20,9 +19,9 @@ public class StartServerTask implements Runnable {
 
   private final File videosFolder;
   private final FFmpegExecutor ffmpegExecutor;
-  private final Callback serverStarted;
+  private final Runnable serverStarted;
 
-  public StartServerTask(File videosFolder, FFmpegExecutor ffmpegExecutor, Callback serverStarted) {
+  public StartServerTask(File videosFolder, FFmpegExecutor ffmpegExecutor, Runnable serverStarted) {
     this.videosFolder = videosFolder;
     this.ffmpegExecutor = ffmpegExecutor;
     this.serverStarted = serverStarted;
@@ -33,7 +32,7 @@ public class StartServerTask implements Runnable {
     GenerateVideosTask generateVideosTask = new GenerateVideosTask(this.videosFolder, this.ffmpegExecutor);
     generateVideosTask.run();
 
-    this.serverStarted.call();
+    this.serverStarted.run();
 
     LOGGER.info("Listening for connections on port {}", Server.PORT);
 
