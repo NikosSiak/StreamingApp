@@ -37,6 +37,8 @@ public class GetVideosTask implements Runnable {
   public void run() {
     ArrayList<String> videos = new ArrayList<>();
 
+    LOGGER.info("Getting videos");
+
     try {
       this.out.writeFloat(this.connectionSpeed);
       this.out.writeUTF(this.format);
@@ -55,6 +57,7 @@ public class GetVideosTask implements Runnable {
       LOGGER.error(e.getMessage());
     }
 
+    LOGGER.info("Finished getting videos");
     this.callback.accept(videos.toArray(new String[videos.size()]));
   }
 }

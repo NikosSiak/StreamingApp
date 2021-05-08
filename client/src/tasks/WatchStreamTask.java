@@ -52,6 +52,7 @@ public class WatchStreamTask implements Runnable {
       this.out.close();
       this.socket.close();
 
+      LOGGER.info("Starting stream");
       ProcessBuilder processBuilder = new ProcessBuilder(this.constructCommandLineArgs(protocol, port));
       processBuilder.start();
     } catch (IOException e) {
@@ -67,12 +68,18 @@ public class WatchStreamTask implements Runnable {
     args.add("quiet");
 
     switch (protocol) {
-      case "TCP":
-        args.add("tcp://" + this.serverIp + ":" + port);
+      case "TCP": {
+        String url = "tcp://" + this.serverIp + ":" + port;
+        LOGGER.info("Stream url: {}", url);
+        args.add(url);
         break;
-      case "UDP":
-        args.add("udp://" + this.serverIp + ":" + port);
+      }
+      case "UDP": {
+        String url = "udp://" + this.serverIp + ":" + port;
+        LOGGER.info("Stream url: {}", url);
+        args.add(url);
         break;
+      }
       case "RTP":
         // TODO
         break;

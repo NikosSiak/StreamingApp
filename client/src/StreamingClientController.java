@@ -2,9 +2,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,7 +10,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 
 public class StreamingClientController implements Initializable {
-  private static final Logger LOGGER = LogManager.getLogger(StreamingClientController.class);
 
   private final StreamingClientService service;
 
