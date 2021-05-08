@@ -18,6 +18,9 @@
     <Logger name="StreamingClientService" level="ALL" additivity="false">
       <AppenderRef ref="file" />
     </Logger>
+    <Logger name="tasks.GetVideosTask" level="ALL" additivity="false">
+      <AppenderRef ref="file" />
+    </Logger>
     <Root level="OFF" additivity="true">
       <AppenderRef ref="console" />
     </Root>

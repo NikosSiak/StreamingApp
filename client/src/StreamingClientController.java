@@ -1,5 +1,6 @@
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,20 +45,28 @@ public class StreamingClientController implements Initializable {
   public void initialize(URL arg0, ResourceBundle arg1) {
     this.formatChoice.getItems().setAll(StreamingClientController.formats);
     this.protocolChoice.getItems().setAll(StreamingClientController.protocols);
+
+    this.formatChoice.setValue(formats[0]);
+    this.protocolChoice.setValue(protocols[0]);
   }
 
   public void getVideos(ActionEvent event) {
-    // TODO get videos
+    String format = this.formatChoice.getSelectionModel().getSelectedItem();
+    float connectionSpeed = 5000f; // TODO: get connection speed
 
-    this.videoChoice.getItems().add("Test movie");
+    Consumer<String[]> videosLoaded = videos -> {
+      this.videoChoice.getItems().setAll(videos);
 
-    this.videoLabel.setDisable(false);
-    this.videoChoice.setDisable(false);
+      this.videoLabel.setDisable(false);
+      this.videoChoice.setDisable(false);
 
-    this.protocolLabel.setDisable(false);
-    this.protocolChoice.setDisable(false);
+      this.protocolLabel.setDisable(false);
+      this.protocolChoice.setDisable(false);
 
-    this.watchStreamButton.setDisable(false);
+      this.watchStreamButton.setDisable(false);
+    };
+
+    this.service.getVideos(format, connectionSpeed, videosLoaded);
   }
 
   public void watchStream(ActionEvent event) {
