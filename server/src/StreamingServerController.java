@@ -1,6 +1,7 @@
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,8 +23,8 @@ public class StreamingServerController {
     LOGGER.info("starting server");
 
     this.startServerButton.setDisable(true);
-    
-    this.service.startServer(() -> this.stopServerButton.setDisable(false));
+
+    this.service.startServer(() -> Platform.runLater(() -> this.stopServerButton.setDisable(false)));
   }
 
   public void stopServer(ActionEvent event) {

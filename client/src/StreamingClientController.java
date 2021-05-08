@@ -51,15 +51,17 @@ public class StreamingClientController implements Initializable {
     float connectionSpeed = 5000f; // TODO: get connection speed
 
     Consumer<String[]> videosLoaded = videos -> {
-      this.videoChoice.getItems().setAll(videos);
+      Platform.runLater(() -> {
+        this.videoChoice.getItems().setAll(videos);
 
-      this.videoLabel.setDisable(false);
-      this.videoChoice.setDisable(false);
+        this.videoLabel.setDisable(false);
+        this.videoChoice.setDisable(false);
 
-      this.protocolLabel.setDisable(false);
-      this.protocolChoice.setDisable(false);
+        this.protocolLabel.setDisable(false);
+        this.protocolChoice.setDisable(false);
 
-      this.watchStreamButton.setDisable(false);
+        this.watchStreamButton.setDisable(false);
+      });
     };
 
     this.service.getVideos(format, connectionSpeed, videosLoaded);
