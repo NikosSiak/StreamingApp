@@ -111,7 +111,7 @@ public class HandleClientTask implements Runnable {
     args.add("quiet");
 
     if (protocol.equals("UDP")) {
-      args.add("-re");
+      // args.add("-re");
       args.add("-i");
       args.add(videoPath);
       args.add("-f");
