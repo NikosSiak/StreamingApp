@@ -3,6 +3,8 @@ package tasks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import constants.Server;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -33,11 +35,11 @@ public class StartServerTask implements Runnable {
 
     this.serverStarted.call();
 
-    LOGGER.info("Listening for connections on port 1312");
+    LOGGER.info("Listening for connections on port {}", Server.PORT);
 
     ServerSocket serverSocket;
     try  {
-      serverSocket = new ServerSocket(1312);
+      serverSocket = new ServerSocket(Server.PORT);
       serverSocket.setSoTimeout(1000);
     } catch (IOException e) {
       LOGGER.error("Failed to start server: {}", e.getMessage());
@@ -63,6 +65,6 @@ public class StartServerTask implements Runnable {
       LOGGER.error("Failed to close server: {}", e.getMessage());
     }
 
-    LOGGER.info("Stopped listening for connections on port 1312");
+    LOGGER.info("Stopped listening for connections on port {}", Server.PORT);
   }
 }

@@ -1,6 +1,7 @@
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import constants.Server;
 import tasks.GetVideosTask;
 import tasks.WatchStreamTask;
 
@@ -14,8 +15,6 @@ import java.util.function.Consumer;
 public class StreamingClientService {
 
   private static final Logger LOGGER = LogManager.getLogger(StreamingClientService.class);
-  private static final String SERVER_IP = "127.0.0.1";
-  private static final int SERVER_PORT = 1312;
 
   private Socket socket;
   private DataInputStream socketIn;
@@ -23,7 +22,7 @@ public class StreamingClientService {
 
   public void getVideos(String format, float connectionSpeed, Consumer<String[]> callback) {
     try {
-      this.socket = new Socket(SERVER_IP, SERVER_PORT);
+      this.socket = new Socket(Server.HOST, Server.PORT);
       this.socketIn = new DataInputStream(new BufferedInputStream(this.socket.getInputStream()));
       this.socketOut = new DataOutputStream(this.socket.getOutputStream());
 
@@ -36,7 +35,7 @@ public class StreamingClientService {
   }
 
   public void watchStream(String video, String protocol) {
-    Thread thread = new Thread(new WatchStreamTask(this.socket, this.socketIn, this.socketOut, video, protocol, SERVER_IP));
+    Thread thread = new Thread(new WatchStreamTask(this.socket, this.socketIn, this.socketOut, video, protocol));
     thread.setDaemon(true);
     thread.start();
   }

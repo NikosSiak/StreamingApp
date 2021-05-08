@@ -3,6 +3,8 @@ package tasks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import constants.Server;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -18,22 +20,19 @@ public class WatchStreamTask implements Runnable {
   private DataOutputStream out;
   private String video;
   private String protocol;
-  private String serverIp;
 
   public WatchStreamTask(
     Socket socket,
     DataInputStream in,
     DataOutputStream out,
     String video,
-    String protocol,
-    String serverIp
+    String protocol
   ) {
     this.socket = socket;
     this.in = in;
     this.out = out;
     this.video = video;
     this.protocol = protocol;
-    this.serverIp = serverIp;
   }
 
   @Override
@@ -69,13 +68,13 @@ public class WatchStreamTask implements Runnable {
 
     switch (protocol) {
       case "TCP": {
-        String url = "tcp://" + this.serverIp + ":" + port;
+        String url = "tcp://" + Server.HOST + ":" + port;
         LOGGER.info("Stream url: {}", url);
         args.add(url);
         break;
       }
       case "UDP": {
-        String url = "udp://" + this.serverIp + ":" + port;
+        String url = "udp://" + Server.HOST+ ":" + port;
         LOGGER.info("Stream url: {}", url);
         args.add(url);
         break;

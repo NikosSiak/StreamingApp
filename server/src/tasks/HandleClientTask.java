@@ -3,6 +3,7 @@ package tasks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import constants.Server;
 import video.Format;
 import video.Resolution;
 import video.VideoFile;
@@ -115,13 +116,13 @@ public class HandleClientTask implements Runnable {
       args.add(videoPath);
       args.add("-f");
       args.add("mpegts");
-      args.add("udp://127.0.0.1:" + port);
+      args.add("udp://" + Server.HOST + ":" + port);
     } else if (protocol.equals("TCP")) {
       args.add("-i");
       args.add(videoPath);
       args.add("-f");
       args.add("mpegts");
-      args.add("tcp://127.0.0.1:" + port + "?listen");
+      args.add("tcp://" + Server.HOST + ":" + port + "?listen");
     } else if (protocol.equals("RTP")) {
       // TODO
     } else {
