@@ -35,4 +35,9 @@ public class StreamingClientService {
     }
   }
 
+  public void watchStream(String video, String protocol) {
+    Thread thread = new Thread(new WatchStreamTask(this.socket, this.socketIn, this.socketOut, video, protocol, SERVER_IP));
+    thread.setDaemon(true);
+    thread.start();
+  }
 }

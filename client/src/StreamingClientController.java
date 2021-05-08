@@ -70,6 +70,9 @@ public class StreamingClientController implements Initializable {
   }
 
   public void watchStream(ActionEvent event) {
+    String video = this.videoChoice.getSelectionModel().getSelectedItem();
+    String protocol = this.protocolChoice.getSelectionModel().getSelectedItem();
 
+    this.service.watchStream(video, protocol);
   }
 }
