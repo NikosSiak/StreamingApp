@@ -106,6 +106,8 @@ public class HandleClientTask implements Runnable {
     String videoPath = new File(this.videosFolder, videoName).getAbsolutePath();
 
     args.add("ffmpeg");
+    args.add("-loglevel");
+    args.add("quiet");
 
     if (protocol.equals("UDP")) {
       args.add("-re");
