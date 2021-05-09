@@ -127,7 +127,17 @@ public class HandleClientTask implements Runnable {
       args.add("mpegts");
       args.add("tcp://" + Server.HOST + ":" + port + "?listen");
     } else if (protocol.equals("RTP")) {
-      // TODO
+      args.add("-re");
+      args.add("-i");
+      args.add(videoPath);
+      args.add("-an");
+      args.add("-c:v");
+      args.add("copy");
+      args.add("-f");
+      args.add("rtp");
+      args.add("-sdp_file");
+      args.add("sdpFiles/" + videoName + "_" + port + ".sdp");
+      args.add("rtp://" + Server.HOST + ":" + port);
     } else {
       throw new IllegalArgumentException("invalid protocol");
     }

@@ -3,10 +3,12 @@ package tasks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import constants.SDPFileServer;
 import constants.Server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -54,6 +56,11 @@ public class WatchStreamTask implements Runnable {
       this.in.close();
       this.out.close();
       this.socket.close();
+      
+      if (protocol.equals("RTP")) {
+        LOGGER.info("Getting sdp file from server");
+        getSDPFile(video, port);
+      }
 
       LOGGER.info("Starting stream");
       ProcessBuilder processBuilder = new ProcessBuilder(this.constructCommandLineArgs(protocol, port));
@@ -83,12 +90,17 @@ public class WatchStreamTask implements Runnable {
         args.add(url);
         break;
       }
-      case "RTP":
-        // TODO
+      case "RTP": {
+        args.add("-protocol_whitelist");
+        args.add("file,rtp,udp");
+        args.add("-i");
+        args.add("video.sdp");
         break;
-      default:
+      }
+      default: {
         LOGGER.warn("Invalid protocol: {}", protocol);
         throw new IllegalArgumentException("invalid protocol");
+      }
     }
 
     return args;
@@ -123,5 +135,25 @@ public class WatchStreamTask implements Runnable {
     }
 
     return metadata[0];
+  }
+
+  private void getSDPFile(String video, int port) {
+    try (
+      Socket socket = new Socket(SDPFileServer.HOST, SDPFileServer.PORT);
+      DataInputStream in = new DataInputStream(socket.getInputStream());
+      DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+      FileOutputStream file = new FileOutputStream("video.sdp");
+    ) {
+      out.writeUTF(video);
+      out.writeInt(port);
+
+      int count;
+      byte[] buffer = new byte[1024];
+      while ((count = in.read(buffer)) > 0) {
+        file.write(buffer, 0, count);
+      }
+    } catch (IOException e) {
+      LOGGER.error(e.getMessage());
+    }
   }
 }
