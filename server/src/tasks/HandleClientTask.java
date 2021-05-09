@@ -65,6 +65,9 @@ public class HandleClientTask implements Runnable {
       String videoToStream = in.readUTF();
       String protocol = in.readUTF().toUpperCase();
 
+      LOGGER.info("Video: {}", videoToStream);
+      LOGGER.info("Protocol: {}", protocol);
+
       try {
         commandLineArguments = this.constructCommandLineArgs(videoToStream, protocol, port);
       } catch (IllegalArgumentException e) {
