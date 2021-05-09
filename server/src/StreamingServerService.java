@@ -5,6 +5,7 @@ import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.FFprobe;
 import tasks.StartServerTask;
+import tasks.SDPFileServer.SDPFileServerTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +19,7 @@ public class StreamingServerService {
   private final FFmpegExecutor executor;
 
   private Thread runningServerThread;
+  private Thread runningSDPServerThread;
 
   public StreamingServerService() throws IOException {
     this("videos");
@@ -36,6 +38,10 @@ public class StreamingServerService {
       this.runningServerThread = new Thread(new StartServerTask(this.videosFolder, this.executor, serverStarted));
       this.runningServerThread.setDaemon(true);
       this.runningServerThread.start();
+
+      this.runningSDPServerThread = new Thread(new SDPFileServerTask());
+      this.runningSDPServerThread.setDaemon(true);
+      this.runningSDPServerThread.start();
     } catch (Exception e) {
       LOGGER.error(e.getMessage());
     }
@@ -44,6 +50,10 @@ public class StreamingServerService {
   public void stopServer() {
     if (this.runningServerThread != null) {
       this.runningServerThread.interrupt();
+    }
+
+    if (this.runningSDPServerThread != null) {
+      this.runningSDPServerThread.interrupt();
     }
   }
 }

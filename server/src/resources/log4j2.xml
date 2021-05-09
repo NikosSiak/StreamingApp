@@ -27,6 +27,12 @@
     <Logger name="tasks.HandleClientTask" level="ALL" additivity="false">
       <AppenderRef ref="TextArea" />
     </Logger>
+    <Logger name="tasks.SDPFileServer.SDPFileServerTask" level="ALL" additivity="false">
+      <AppenderRef ref="TextArea" />
+    </Logger>
+    <Logger name="tasks.SDPFileServer.HandleClientTask" level="ALL" additivity="false">
+      <AppenderRef ref="TextArea" />
+    </Logger>
     <Root level="OFF" additivity="true">
       <AppenderRef ref="console" />
     </Root>
