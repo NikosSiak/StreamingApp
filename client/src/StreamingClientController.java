@@ -43,7 +43,7 @@ public class StreamingClientController implements Initializable {
   private ProgressIndicator speedTestProgressIndicator;
 
   private static final String[] formats = { "MP4", "AVI", "MKV" };
-  private static final String[] protocols = { "TCP", "UDP", "RTP" };
+  private static final String[] protocols = { "DEFAULT", "TCP", "UDP", "RTP" };
 
   public StreamingClientController(StreamingClientService service) {
     this.service = service;

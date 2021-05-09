@@ -32,7 +32,11 @@ public class WatchStreamTask implements Runnable {
     this.in = in;
     this.out = out;
     this.video = video;
-    this.protocol = protocol;
+    if (protocol.equals("DEFAULT")) {
+      this.protocol = WatchStreamTask.getDefaultProtocolForVideo(video);
+    } else {
+      this.protocol = protocol;
+    }
   }
 
   @Override
@@ -88,5 +92,36 @@ public class WatchStreamTask implements Runnable {
     }
 
     return args;
+  }
+
+  private static String getDefaultProtocolForVideo(String video) {
+    String resolution = WatchStreamTask.getResolution(video);
+
+    switch (resolution) {
+      case "240p":
+        return "TCP";
+      case "360p":
+      case "480p":
+        return "UDP";
+      case "720p":
+      case "1080p":
+        return "RTP";
+    }
+
+    throw new IllegalArgumentException("unsupported resolution");
+  }
+
+  private static String getResolution(String video) {
+    int index = video.lastIndexOf("-");
+    if (index == -1) {
+      throw new IllegalArgumentException("wrong file name format");
+    }
+
+    String[] metadata = video.substring(index + 1).split("\\.");
+    if (metadata.length != 2) {
+      throw new IllegalArgumentException("wrong file name format");
+    }
+
+    return metadata[0];
   }
 }
