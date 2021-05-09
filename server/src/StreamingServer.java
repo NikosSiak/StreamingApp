@@ -28,6 +28,7 @@ public class StreamingServer extends Application {
       startServer.fire();
       
       stage.setScene(scene);
+      stage.setTitle("Streaming Server");
       stage.show();
     } catch (Exception e) {
       e.printStackTrace();

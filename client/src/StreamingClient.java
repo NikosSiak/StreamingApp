@@ -17,6 +17,7 @@ public class StreamingClient extends Application {
       Scene scene = initScene();
       stage.setScene(scene);
       stage.setResizable(false);
+      stage.setTitle("Streaming Client");
       stage.show();
     } catch (Exception e) {
       e.printStackTrace();
