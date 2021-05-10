@@ -21,6 +21,8 @@ Finally the server starts the video streaming by creating a new process to run t
 In order for the RTP/UDP protocol to work the server will start a second server socket on a different thread that will
 act as a simple file server to send to the clients the generated sdp file for their stream.
 
+![server](https://user-images.githubusercontent.com/34605386/117718871-611f4b00-b1e5-11eb-9240-694770d4f125.gif)
+
 ## Streaming Client
 
 When the client starts a five seconds internet speed test will begin, after the speed test the main window will be
@@ -29,6 +31,8 @@ available to the user.
 Afterwards the user must select a file format, then a list of videos will be available.
 
 When the user picks a video and a communication protocol the client will start playing the stream using the `ffplay` executable.
+
+![client](https://user-images.githubusercontent.com/34605386/117717757-e6a1fb80-b1e3-11eb-81b5-8bbabb28ac3b.gif)
 
 ## Notes
 
