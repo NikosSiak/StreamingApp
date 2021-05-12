@@ -45,7 +45,7 @@ public class VideoVariants {
   public String getFileName() {
     StringBuilder builder = new StringBuilder(this.videoName);
     builder.append("-");
-    builder.append(this.maxExistingResolution.getRepresentaion());
+    builder.append(this.maxExistingResolution.getRepresentation());
     builder.append(this.maxExistingResolutionFileFormat.getExtension());
 
     return builder.toString();

@@ -25,7 +25,7 @@ public class Variant {
 
     StringBuilder builder = new StringBuilder(inputPath.substring(0, index));
     builder.append("-");
-    builder.append(this.resolution.getRepresentaion());
+    builder.append(this.resolution.getRepresentation());
     builder.append(this.format.getExtension());
     
     return builder.toString();

@@ -25,7 +25,7 @@ public enum Resolution {
     return this.height;
   }
 
-  public String getRepresentaion() {
+  public String getRepresentation() {
     return this.representation;
   }
 
