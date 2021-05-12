@@ -42,7 +42,7 @@ public class VideoVariants {
     return missingVariants.toArray(new Variant[missingVariants.size()]);
   }
 
-  public String getFileName() {
+  public String getMaxExistingResolutionFileName() {
     StringBuilder builder = new StringBuilder(this.videoName);
     builder.append("-");
     builder.append(this.maxExistingResolution.getRepresentation());

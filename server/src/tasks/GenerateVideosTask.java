@@ -33,7 +33,7 @@ public class GenerateVideosTask implements Runnable {
     VideoVariants[] videoVariants = getVideoVariants();
 
     for (VideoVariants video : videoVariants) {
-      this.generateMissingVariantsForVideo(video.getFileName(), video.getMissingVariants());
+      this.generateMissingVariantsForVideo(video.getMaxExistingResolutionFileName(), video.getMissingVariants());
     }
 
     LOGGER.info("Finished creating video files");
